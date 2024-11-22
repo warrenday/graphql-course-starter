@@ -1,0 +1,5 @@
+query SearchJobs($input: SearchJobsInput!) {
+  searchJobs(input: $input) {
+    id
+  }
+}

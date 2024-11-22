@@ -8,9 +8,17 @@ const config: CodegenConfig = {
       config: {
         contextType: "../context#Context",
         defaultMapper: "Partial<{T}>",
-        scalars: {
-          DateTime: "Date",
-        },
+      },
+    },
+    "./src/types/graphql.ts": {
+      documents: ["src/**/*.graphql"],
+      plugins: [
+        "typescript",
+        "typescript-operations",
+        "typescript-react-apollo",
+      ],
+      config: {
+        withHooks: true,
       },
     },
   },
