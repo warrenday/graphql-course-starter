@@ -1,0 +1,27 @@
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+}
+
+type Job {
+  id: ID!
+  title: String!
+  company: Company!
+  location: String!
+  description: String!
+  type: JobType!
+  remote: Boolean!
+  salary: Int!
+  icon: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input SearchJobsInput {
+  query: String!
+}
+
+type Query {
+  searchJobs(input: SearchJobsInput!): [Job!]!
+}
