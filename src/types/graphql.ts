@@ -15,10 +15,32 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type ApplyForJobInput = {
+  id: Scalars['ID']['input'];
+};
+
+export type CancelApplicationInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type Company = {
   __typename?: 'Company';
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+};
+
+export type CreateJobInput = {
+  companyName: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  location: Scalars['String']['input'];
+  remote: Scalars['Boolean']['input'];
+  salary: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
+  type: JobType;
+};
+
+export type DeleteJobInput = {
+  id: Scalars['ID']['input'];
 };
 
 export type Job = {
@@ -26,7 +48,6 @@ export type Job = {
   company: Company;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
-  icon: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   location: Scalars['String']['output'];
   remote: Scalars['Boolean']['output'];
@@ -49,9 +70,33 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  applyForJob: Scalars['Boolean']['output'];
+  cancelApplication: Scalars['Boolean']['output'];
+  createJob: Job;
+  deleteJob: Scalars['Boolean']['output'];
   login: User;
   logout: Scalars['Boolean']['output'];
   signup: User;
+};
+
+
+export type MutationApplyForJobArgs = {
+  input: ApplyForJobInput;
+};
+
+
+export type MutationCancelApplicationArgs = {
+  input: CancelApplicationInput;
+};
+
+
+export type MutationCreateJobArgs = {
+  input: CreateJobInput;
+};
+
+
+export type MutationDeleteJobArgs = {
+  input: DeleteJobInput;
 };
 
 

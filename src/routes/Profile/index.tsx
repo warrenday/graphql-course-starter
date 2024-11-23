@@ -1,40 +1,16 @@
-import { IJob, JobType } from "../../components/JobCard";
 import Profile from "./Profile";
-
-// Mock data (in a real app, this would come from your backend)
-const user = {
-  name: "Tom Wilson",
-  email: "tom@example.com",
-  initials: "TW",
-};
-
-const appliedJobs: IJob[] = [
-  {
-    id: "1",
-    title: "Software Engineer",
-    company: "Google",
-    location: "New York, NY",
-    createdAt: new Date("2024-03-01"),
-    type: JobType.FULL_TIME,
-    remote: true,
-    salary: 120000,
-    icon: "https://via.placeholder.com/150",
-  },
-  {
-    id: "2",
-    title: "System Engineer",
-    company: "Amazon",
-    location: "Seattle, WA",
-    createdAt: new Date("2024-03-05"),
-    type: JobType.FULL_TIME,
-    remote: false,
-    salary: 100000,
-    icon: "https://via.placeholder.com/150",
-  },
-];
+import { useProfileQuery } from "./queries.generated";
 
 const ProfileRoute = () => {
-  return <Profile user={user} appliedJobs={appliedJobs} />;
+  const { data } = useProfileQuery();
+
+  const user = {
+    id: data?.me?.id,
+    name: data?.me?.name || "",
+    email: data?.me?.email || "",
+  };
+
+  return <Profile user={user} appliedJobs={data?.me?.appliedJobs || []} />;
 };
 
 export default ProfileRoute;

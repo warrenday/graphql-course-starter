@@ -1,6 +1,22 @@
-import type { Resolvers, UserRole } from "../../types/resolvers-types";
+import { Resolvers, UserRole } from "../../types/resolvers-types";
 
 const resolvers: Resolvers = {
+  User: {
+    appliedJobs: async (user, args, context) => {
+      return context.prisma.job.findMany({
+        where: { applicants: { some: { id: user.id } } },
+      });
+    },
+    ownedJobs: async (user, args, context) => {
+      if (!context.auth.user?.isAdmin) {
+        return [];
+      }
+
+      return context.prisma.job.findMany({
+        where: { ownerId: user.id },
+      });
+    },
+  },
   Query: {
     me: async (root, args, context) => {
       if (!context.auth.user) {
@@ -36,7 +52,10 @@ const resolvers: Resolvers = {
         },
       });
 
-      context.auth.login(user.id);
+      context.auth.login({
+        id: user.id,
+        isAdmin: user.role === UserRole.Admin,
+      });
 
       return {
         ...user,
@@ -60,7 +79,10 @@ const resolvers: Resolvers = {
         throw new Error("Invalid email or password");
       }
 
-      context.auth.login(user.id);
+      context.auth.login({
+        id: user.id,
+        isAdmin: user.role === UserRole.Admin,
+      });
 
       return {
         ...user,

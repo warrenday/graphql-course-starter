@@ -1,16 +1,17 @@
-import { useState } from "react";
+import { useCancelApplicationMutation } from "./queries.generated";
 
 const useCancelApplication = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [cancelApplicationMutation, { loading }] =
+    useCancelApplicationMutation();
 
   return {
-    cancelApplication: async () => {
-      // TODO: Implement
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setIsLoading(false);
+    cancelApplication: async (id: string) => {
+      await cancelApplicationMutation({
+        variables: { input: { id } },
+        refetchQueries: ["Profile"],
+      });
     },
-    isLoading,
+    isLoading: loading,
   };
 };
 

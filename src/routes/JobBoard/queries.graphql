@@ -13,3 +13,7 @@ query SearchJobs($input: SearchJobsInput!) {
     createdAt
   }
 }
+
+mutation ApplyForJob($input: ApplyForJobInput!) {
+  applyForJob(input: $input)
+}

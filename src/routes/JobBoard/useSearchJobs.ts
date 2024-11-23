@@ -3,27 +3,21 @@ import { useSearchJobsQuery } from "./queries.generated";
 
 const useSearchJobs = () => {
   const [search, setSearch] = useState("");
-  const { data, loading } = useSearchJobsQuery({
+  const { data, previousData, loading } = useSearchJobsQuery({
     variables: {
       input: {
         query: search,
       },
     },
+    fetchPolicy: "cache-and-network",
+    notifyOnNetworkStatusChange: true, // This enables access to previousData
   });
 
-  const filteredResults = useMemo(() => {
-    if (!data?.searchJobs) {
-      return [];
-    }
+  const results = useMemo(() => {
+    return data?.searchJobs || previousData?.searchJobs || [];
+  }, [data?.searchJobs, previousData?.searchJobs]);
 
-    return data.searchJobs.filter(
-      (job) =>
-        job.title.toLowerCase().includes(search.toLowerCase()) ||
-        job.company.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [data?.searchJobs, search]);
-
-  return { search, setSearch, results: filteredResults, isLoading: loading };
+  return { search, setSearch, results, isLoading: loading };
 };
 
 export default useSearchJobs;

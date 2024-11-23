@@ -1,5 +1,7 @@
 import formatSalary from "../../helpers/formatSalary";
+import { getInitials } from "../../helpers/getInitials";
 import timeSinceDate from "../../helpers/timeSinceDate";
+import { Avatar } from "../catalyst/avatar";
 import { Badge } from "../catalyst/badge";
 import { Heading } from "../catalyst/heading";
 import { Text } from "../catalyst/text";
@@ -12,9 +14,8 @@ export enum JobType {
 
 export interface IJob {
   id: string;
-  icon: string;
   title: string;
-  company: string;
+  company: { name: string };
   location: string;
   createdAt: Date;
   type: JobType;
@@ -26,36 +27,33 @@ interface IJobCardProps extends Omit<IJob, "id"> {
   action: React.ReactNode;
 }
 
+const jobTypeMap = {
+  [JobType.FULL_TIME]: "Full-Time",
+  [JobType.PART_TIME]: "Part-Time",
+  [JobType.INTERNSHIP]: "Internship",
+};
+
 const JobCard = (props: IJobCardProps) => {
-  const {
-    icon,
-    title,
-    company,
-    location,
-    createdAt,
-    type,
-    remote,
-    salary,
-    action,
-  } = props;
+  const { title, company, location, createdAt, type, remote, salary, action } =
+    props;
 
   return (
     <>
       <div className="p-4 border rounded-lg shadow-sm">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <img src={icon} alt={title} className="w-12 h-12 rounded-full" />
+            <Avatar className="w-12 h-12" initials={getInitials(title)} />
             <div>
               <Heading level={2}>{title}</Heading>
               <Text className="text-sm text-gray-500 -mt-[2px]">
-                {company} • {location}
+                {company.name} • {location}
               </Text>
             </div>
           </div>
           <Text>Posted {timeSinceDate(createdAt)}</Text>
         </div>
         <div className="flex items-center gap-2 mt-4">
-          <Badge color="lime">{type}</Badge>
+          <Badge color="lime">{jobTypeMap[type]}</Badge>
           <Badge color="purple">{remote ? "Remote" : "In-Person"}</Badge>
         </div>
         <div className="flex items-center justify-between mt-4">

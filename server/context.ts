@@ -7,8 +7,8 @@ const JWT_SECRET = "your-secret-key"; // In production, always use environment v
 export interface Context {
   prisma: PrismaClient;
   auth: {
-    user: { id: string } | null;
-    login: (userId: string) => void;
+    user: { id: string; isAdmin: boolean } | null;
+    login: (args: { id: string; isAdmin: boolean }) => void;
     logout: () => void;
   };
 }
@@ -21,23 +21,24 @@ const parseToken = (token: string) => {
 
   const payload = z
     .object({
-      userId: z.string(),
+      id: z.string(),
+      isAdmin: z.boolean(),
     })
-    .parse(parsedToken);
+    .safeParse(parsedToken);
 
-  return payload.userId;
+  return payload.success ? payload.data : null;
 };
 
 const createContext = async ({ req, res }: { req: Request; res: Response }) => {
   const token = req.cookies?.token;
-  const userId = parseToken(token);
+  const user = parseToken(token);
 
   return {
     prisma: new PrismaClient(),
     auth: {
-      user: userId ? { id: userId } : null,
-      login: (userId: string) => {
-        const token = jwt.sign({ userId }, JWT_SECRET);
+      user,
+      login: (args: { id: string; isAdmin: boolean }) => {
+        const token = jwt.sign(args, JWT_SECRET);
         res.cookie("token", token, {
           domain: "localhost",
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

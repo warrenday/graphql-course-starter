@@ -19,7 +19,7 @@ interface IAdminProps {
 const Admin = (props: IAdminProps) => {
   const { jobs } = props;
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
   const { deleteJob, isLoading } = useDeleteJob();
 
   return (
@@ -37,21 +37,23 @@ const Admin = (props: IAdminProps) => {
         onClose={() => setIsCreateDialogOpen(false)}
       />
 
-      <Alert open={isConfirmOpen} onClose={() => setIsConfirmOpen(false)}>
+      <Alert open={!!deleteJobId} onClose={() => setDeleteJobId(null)}>
         <AlertTitle>Remove Role</AlertTitle>
         <AlertDescription>
           Are you sure you want to remove this role? This action cannot be
           undone.
         </AlertDescription>
         <AlertActions>
-          <Button plain onClick={() => setIsConfirmOpen(false)}>
+          <Button plain onClick={() => setDeleteJobId(null)}>
             No, keep role
           </Button>
           <Button
             color="red"
             onClick={async () => {
-              await deleteJob();
-              setIsConfirmOpen(false);
+              if (deleteJobId) {
+                await deleteJob(deleteJobId);
+                setDeleteJobId(null);
+              }
             }}
             loading={isLoading}
           >
@@ -70,7 +72,6 @@ const Admin = (props: IAdminProps) => {
         {jobs.map((job, index) => (
           <JobCard
             key={index}
-            icon={job.icon}
             title={job.title}
             company={job.company}
             location={job.location}
@@ -80,7 +81,7 @@ const Admin = (props: IAdminProps) => {
             salary={job.salary}
             action={
               <div className="flex items-center gap-4">
-                <Button onClick={() => setIsConfirmOpen(true)}>Remove</Button>
+                <Button onClick={() => setDeleteJobId(job.id)}>Remove</Button>
               </div>
             }
           />

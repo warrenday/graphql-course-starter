@@ -45,7 +45,6 @@ model Job {
   type        String
   remote      Boolean
   salary      Int
-  icon        String
 
   company    Company @relation(fields: [companyId], references: [id])
   companyId  String

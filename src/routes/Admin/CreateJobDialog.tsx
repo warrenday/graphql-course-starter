@@ -11,10 +11,12 @@ import { Switch, SwitchField } from "../../components/catalyst/switch";
 import { Button } from "../../components/catalyst/button";
 import { useForm } from "react-hook-form";
 import { JobType } from "../../components/JobCard";
+import { useCreateJobMutation } from "./queries.generated";
 
 interface JobFormData {
   title: string;
-  company: string;
+  description: string;
+  companyName: string;
   location: string;
   type: JobType;
   remote: boolean;
@@ -29,6 +31,10 @@ interface ICreateJobDialogProps {
 const CreateJobDialog = (props: ICreateJobDialogProps) => {
   const { isOpen, onClose } = props;
 
+  const [createJob, { loading }] = useCreateJobMutation({
+    refetchQueries: ["Admin"],
+  });
+
   const { register, handleSubmit, reset, watch, setValue } =
     useForm<JobFormData>({
       defaultValues: {
@@ -37,8 +43,12 @@ const CreateJobDialog = (props: ICreateJobDialogProps) => {
       },
     });
 
-  const onSubmit = (data: JobFormData) => {
-    console.log(data);
+  const onSubmit = async (data: JobFormData) => {
+    await createJob({
+      variables: {
+        input: data,
+      },
+    });
     onClose();
     reset();
   };
@@ -63,9 +73,17 @@ const CreateJobDialog = (props: ICreateJobDialogProps) => {
             </Field>
 
             <Field>
+              <Label>Job Description</Label>
+              <Input
+                {...register("description", { required: true })}
+                placeholder="e.g. We are looking for a senior software engineer..."
+              />
+            </Field>
+
+            <Field>
               <Label>Company</Label>
               <Input
-                {...register("company", { required: true })}
+                {...register("companyName", { required: true })}
                 placeholder="e.g. Acme Inc"
               />
             </Field>
@@ -114,7 +132,9 @@ const CreateJobDialog = (props: ICreateJobDialogProps) => {
           <Button plain onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type="submit">Create Job</Button>
+          <Button type="submit" loading={loading}>
+            Create Job
+          </Button>
         </DialogActions>
       </form>
     </Dialog>

@@ -10,6 +10,13 @@ export type SearchJobsQueryVariables = Types.Exact<{
 
 export type SearchJobsQuery = { __typename?: 'Query', searchJobs: Array<{ __typename?: 'Job', id: string, title: string, location: string, type: Types.JobType, remote: boolean, salary: number, createdAt: Date, company: { __typename?: 'Company', id: string, name: string } }> };
 
+export type ApplyForJobMutationVariables = Types.Exact<{
+  input: Types.ApplyForJobInput;
+}>;
+
+
+export type ApplyForJobMutation = { __typename?: 'Mutation', applyForJob: boolean };
+
 
 export const SearchJobsDocument = gql`
     query SearchJobs($input: SearchJobsInput!) {
@@ -61,3 +68,34 @@ export type SearchJobsQueryHookResult = ReturnType<typeof useSearchJobsQuery>;
 export type SearchJobsLazyQueryHookResult = ReturnType<typeof useSearchJobsLazyQuery>;
 export type SearchJobsSuspenseQueryHookResult = ReturnType<typeof useSearchJobsSuspenseQuery>;
 export type SearchJobsQueryResult = Apollo.QueryResult<SearchJobsQuery, SearchJobsQueryVariables>;
+export const ApplyForJobDocument = gql`
+    mutation ApplyForJob($input: ApplyForJobInput!) {
+  applyForJob(input: $input)
+}
+    `;
+export type ApplyForJobMutationFn = Apollo.MutationFunction<ApplyForJobMutation, ApplyForJobMutationVariables>;
+
+/**
+ * __useApplyForJobMutation__
+ *
+ * To run a mutation, you first call `useApplyForJobMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useApplyForJobMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [applyForJobMutation, { data, loading, error }] = useApplyForJobMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useApplyForJobMutation(baseOptions?: Apollo.MutationHookOptions<ApplyForJobMutation, ApplyForJobMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ApplyForJobMutation, ApplyForJobMutationVariables>(ApplyForJobDocument, options);
+      }
+export type ApplyForJobMutationHookResult = ReturnType<typeof useApplyForJobMutation>;
+export type ApplyForJobMutationResult = Apollo.MutationResult<ApplyForJobMutation>;
+export type ApplyForJobMutationOptions = Apollo.BaseMutationOptions<ApplyForJobMutation, ApplyForJobMutationVariables>;

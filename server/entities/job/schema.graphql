@@ -13,7 +13,6 @@ type Job {
   type: JobType!
   remote: Boolean!
   salary: Int!
-  icon: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -22,6 +21,35 @@ input SearchJobsInput {
   query: String!
 }
 
+input CreateJobInput {
+  title: String!
+  location: String!
+  description: String!
+  type: JobType!
+  remote: Boolean!
+  salary: Int!
+  companyName: String!
+}
+
+input DeleteJobInput {
+  id: ID!
+}
+
+input ApplyForJobInput {
+  id: ID!
+}
+
+input CancelApplicationInput {
+  id: ID!
+}
+
 type Query {
   searchJobs(input: SearchJobsInput!): [Job!]!
+}
+
+type Mutation {
+  createJob(input: CreateJobInput!): Job!
+  deleteJob(input: DeleteJobInput!): Boolean!
+  applyForJob(input: ApplyForJobInput!): Boolean!
+  cancelApplication(input: CancelApplicationInput!): Boolean!
 }

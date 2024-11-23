@@ -12,6 +12,10 @@ const config: CodegenConfig = {
         scalars: {
           DateTime: "Date",
         },
+        mappers: {
+          Job: "@prisma/client#Job",
+          JobType: "@prisma/client#JobType",
+        },
       },
     },
     "src/types/graphql.ts": {

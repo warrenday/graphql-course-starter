@@ -17,11 +17,11 @@ import { Text } from "../../components/catalyst/text";
 import JobCard, { IJob } from "../../components/JobCard";
 import useCancelApplication from "./useCancelApplication";
 import EmptyState from "../../components/EmptyState";
+import { getInitials } from "../../helpers/getInitials";
 
 interface IUser {
   name: string;
   email: string;
-  initials: string;
 }
 
 interface IProfileProps {
@@ -31,7 +31,7 @@ interface IProfileProps {
 
 const Profile = (props: IProfileProps) => {
   const { user, appliedJobs } = props;
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [cancelJobId, setCancelJobId] = useState<string | null>(null);
   const { cancelApplication, isLoading } = useCancelApplication();
 
   return (
@@ -39,7 +39,7 @@ const Profile = (props: IProfileProps) => {
       {/* Profile Header */}
       <div className="flex items-center gap-4">
         <Avatar
-          initials={user.initials}
+          initials={getInitials(user.name)}
           className="size-16 bg-black text-white text-xl"
         />
         <div>
@@ -63,21 +63,21 @@ const Profile = (props: IProfileProps) => {
       </div>
 
       {/* Applications */}
-      <Alert open={isConfirmOpen} onClose={() => setIsConfirmOpen(false)}>
+      <Alert open={!!cancelJobId} onClose={() => setCancelJobId(null)}>
         <AlertTitle>Cancel Application</AlertTitle>
         <AlertDescription>
           Are you sure you want to cancel your application? This action cannot
           be undone.
         </AlertDescription>
         <AlertActions>
-          <Button plain onClick={() => setIsConfirmOpen(false)}>
+          <Button plain onClick={() => setCancelJobId(null)}>
             No, keep application
           </Button>
           <Button
             color="red"
             onClick={async () => {
-              await cancelApplication();
-              setIsConfirmOpen(false);
+              await cancelApplication(cancelJobId!);
+              setCancelJobId(null);
             }}
             loading={isLoading}
           >
@@ -100,7 +100,6 @@ const Profile = (props: IProfileProps) => {
           {appliedJobs.map((job, index) => (
             <JobCard
               key={index}
-              icon={job.icon}
               title={job.title}
               company={job.company}
               location={job.location}
@@ -109,7 +108,7 @@ const Profile = (props: IProfileProps) => {
               remote={job.remote}
               salary={job.salary}
               action={
-                <Button onClick={() => setIsConfirmOpen(true)}>Cancel</Button>
+                <Button onClick={() => setCancelJobId(job.id)}>Cancel</Button>
               }
             />
           ))}

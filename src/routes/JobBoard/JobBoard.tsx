@@ -10,13 +10,14 @@ import EmptyState from "../../components/EmptyState";
 
 const JobBoard = () => {
   const { search, setSearch, results, isLoading } = useSearchJobs();
-  const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
+  const [applyJobId, setApplyJobId] = useState<string | null>(null);
 
   return (
     <div className="flex flex-col max-w-3xl mx-auto px-4 gap-8">
       <ApplyDialog
-        isOpen={isApplyDialogOpen}
-        onClose={() => setIsApplyDialogOpen(false)}
+        isOpen={!!applyJobId}
+        onClose={() => setApplyJobId(null)}
+        jobId={applyJobId!}
       />
 
       <div className="w-full">
@@ -26,6 +27,7 @@ const JobBoard = () => {
             className="w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            autoFocus
           />
           {isLoading ? (
             <div className="absolute right-2 top-1/2 -translate-y-1/2">
@@ -47,16 +49,15 @@ const JobBoard = () => {
         {results.map((job) => (
           <JobCard
             key={job.id}
-            icon="https://via.placeholder.com/150"
             title={job.title}
-            company={job.company.name}
+            company={job.company}
             location={job.location}
             createdAt={job.createdAt}
             type={job.type}
             remote={job.remote}
             salary={job.salary}
             action={
-              <Button onClick={() => setIsApplyDialogOpen(true)}>Apply</Button>
+              <Button onClick={() => setApplyJobId(job.id)}>Apply</Button>
             }
           />
         ))}

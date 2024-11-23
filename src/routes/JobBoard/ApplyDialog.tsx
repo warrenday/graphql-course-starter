@@ -1,52 +1,57 @@
-import { useState } from "react";
 import { Button } from "../../components/catalyst/button";
 import {
   Dialog,
   DialogActions,
-  DialogBody,
   DialogDescription,
   DialogTitle,
 } from "../../components/catalyst/dialog";
-import { Label } from "../../components/catalyst/fieldset";
-import { Field } from "../../components/catalyst/fieldset";
-import { Input } from "../../components/catalyst/input";
+import { useAuth } from "../../providers/AuthProvider";
+import { useApplyForJobMutation } from "./queries.generated";
 
 interface IApplyDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  jobId: string;
 }
 
 const ApplyDialog = (props: IApplyDialogProps) => {
-  const { isOpen, onClose } = props;
-  const [email, setEmail] = useState("");
+  const { isOpen, onClose, jobId } = props;
+  const { isLoggedIn } = useAuth();
 
-  const handleApply = (email: string) => {
+  const [applyForJob, { loading }] = useApplyForJobMutation();
+
+  const handleApply = async () => {
+    await applyForJob({ variables: { input: { id: jobId } } });
     onClose();
   };
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>Apply for role</DialogTitle>
-      <DialogDescription>
-        Please enter your email below and we will be in touch shortly.
-      </DialogDescription>
-      <DialogBody>
-        <Field>
-          <Label>Email</Label>
-          <Input
-            name="email"
-            placeholder="example@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Field>
-      </DialogBody>
-      <DialogActions>
-        <Button plain onClick={onClose}>
-          Cancel
-        </Button>
-        <Button onClick={() => handleApply(email)}>Apply</Button>
-      </DialogActions>
+      {isLoggedIn ? (
+        <>
+          <DialogDescription>
+            Confirm you would like to apply for this role.
+          </DialogDescription>
+          <DialogActions>
+            <Button plain onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={handleApply}>Apply</Button>
+          </DialogActions>
+        </>
+      ) : (
+        <>
+          <DialogDescription>
+            Please login or create an account to apply for this role.
+          </DialogDescription>
+          <DialogActions>
+            <Button onClick={onClose} loading={loading}>
+              Close
+            </Button>
+          </DialogActions>
+        </>
+      )}
     </Dialog>
   );
 };
