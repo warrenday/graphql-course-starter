@@ -45,24 +45,26 @@ export enum JobType {
   PartTime = 'PART_TIME'
 }
 
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   login: User;
+  logout: Scalars['Boolean']['output'];
   signup: User;
 };
 
 
 export type MutationLoginArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+  input: LoginInput;
 };
 
 
 export type MutationSignupArgs = {
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  role: UserRole;
+  input: SignupInput;
 };
 
 export type Query = {
@@ -78,6 +80,13 @@ export type QuerySearchJobsArgs = {
 
 export type SearchJobsInput = {
   query: Scalars['String']['input'];
+};
+
+export type SignupInput = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  role: UserRole;
 };
 
 export type User = {
@@ -173,9 +182,11 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Partial<Scalars['Int']['output']>>;
   Job: ResolverTypeWrapper<Partial<Job>>;
   JobType: ResolverTypeWrapper<Partial<JobType>>;
+  LoginInput: ResolverTypeWrapper<Partial<LoginInput>>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   SearchJobsInput: ResolverTypeWrapper<Partial<SearchJobsInput>>;
+  SignupInput: ResolverTypeWrapper<Partial<SignupInput>>;
   String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
   User: ResolverTypeWrapper<Partial<User>>;
   UserRole: ResolverTypeWrapper<Partial<UserRole>>;
@@ -189,9 +200,11 @@ export type ResolversParentTypes = {
   ID: Partial<Scalars['ID']['output']>;
   Int: Partial<Scalars['Int']['output']>;
   Job: Partial<Job>;
+  LoginInput: Partial<LoginInput>;
   Mutation: {};
   Query: {};
   SearchJobsInput: Partial<SearchJobsInput>;
+  SignupInput: Partial<SignupInput>;
   String: Partial<Scalars['String']['output']>;
   User: Partial<User>;
 };
@@ -222,8 +235,9 @@ export type JobResolvers<ContextType = Context, ParentType extends ResolversPare
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
-  signup?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSignupArgs, 'email' | 'name' | 'password' | 'role'>>;
+  login?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'input'>>;
+  logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  signup?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

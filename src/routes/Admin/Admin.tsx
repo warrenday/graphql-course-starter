@@ -1,7 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Button } from "../../components/catalyst/button";
-import JobCard from "../../components/JobCard";
+import JobCard, { IJob } from "../../components/JobCard";
 import {
   Alert,
   AlertActions,
@@ -9,20 +9,8 @@ import {
   AlertTitle,
 } from "../../components/catalyst/alert";
 import CreateJobDialog from "./CreateJobDialog";
-import { JobType } from "../../components/JobCard";
 import useDeleteJob from "./useDeleteJob";
 import EmptyState from "../../components/EmptyState";
-
-interface IJob {
-  title: string;
-  company: string;
-  location: string;
-  createdAt: string;
-  type: JobType;
-  remote: boolean;
-  salary: number;
-  icon: string;
-}
 
 interface IAdminProps {
   jobs: IJob[];

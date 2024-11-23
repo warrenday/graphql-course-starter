@@ -16,6 +16,11 @@ const config: CodegenConfig = {
     },
     "src/types/graphql.ts": {
       plugins: ["typescript"],
+      config: {
+        namingConvention: {
+          enumValues: "change-case#upperCase",
+        },
+      },
     },
     "src/": {
       preset: "near-operation-file",

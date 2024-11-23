@@ -14,7 +14,7 @@ import {
 } from "../../components/catalyst/description-list";
 import { Heading } from "../../components/catalyst/heading";
 import { Text } from "../../components/catalyst/text";
-import JobCard, { JobType } from "../../components/JobCard";
+import JobCard, { IJob } from "../../components/JobCard";
 import useCancelApplication from "./useCancelApplication";
 import EmptyState from "../../components/EmptyState";
 
@@ -22,18 +22,6 @@ interface IUser {
   name: string;
   email: string;
   initials: string;
-}
-
-interface IJob {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  createdAt: string;
-  type: JobType;
-  remote: boolean;
-  salary: number;
-  icon: string;
 }
 
 interface IProfileProps {

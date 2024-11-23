@@ -10,7 +10,7 @@
  * 1 month
  * 1 year
  */
-const timeSinceDate = (date: string) => {
+const timeSinceDate = (date: Date) => {
   const now = new Date();
   const past = new Date(date);
   const seconds = Math.floor((now.getTime() - past.getTime()) / 1000);

@@ -5,20 +5,24 @@ import { Heading } from "../catalyst/heading";
 import { Text } from "../catalyst/text";
 
 export enum JobType {
-  FULL_TIME = "Full Time",
-  PART_TIME = "Part Time",
-  REMOTE = "Remote",
+  FULL_TIME = "FULL_TIME",
+  INTERNSHIP = "INTERNSHIP",
+  PART_TIME = "PART_TIME",
 }
 
-interface IJobCardProps {
+export interface IJob {
+  id: string;
   icon: string;
   title: string;
   company: string;
   location: string;
-  createdAt: string;
+  createdAt: Date;
   type: JobType;
   remote: boolean;
   salary: number;
+}
+
+interface IJobCardProps extends Omit<IJob, "id"> {
   action: React.ReactNode;
 }
 

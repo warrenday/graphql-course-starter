@@ -37,29 +37,31 @@ export type Job = {
 };
 
 export enum JobType {
-  FullTime = 'FULL_TIME',
-  Internship = 'INTERNSHIP',
-  PartTime = 'PART_TIME'
+  FULL_TIME = 'FULL_TIME',
+  INTERNSHIP = 'INTERNSHIP',
+  PART_TIME = 'PART_TIME'
 }
+
+export type LoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
   login: User;
+  logout: Scalars['Boolean']['output'];
   signup: User;
 };
 
 
 export type MutationLoginArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+  input: LoginInput;
 };
 
 
 export type MutationSignupArgs = {
-  email: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  role: UserRole;
+  input: SignupInput;
 };
 
 export type Query = {
@@ -77,6 +79,13 @@ export type SearchJobsInput = {
   query: Scalars['String']['input'];
 };
 
+export type SignupInput = {
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  role: UserRole;
+};
+
 export type User = {
   __typename?: 'User';
   appliedJobs: Array<Job>;
@@ -88,6 +97,6 @@ export type User = {
 };
 
 export enum UserRole {
-  Admin = 'ADMIN',
-  User = 'USER'
+  ADMIN = 'ADMIN',
+  USER = 'USER'
 }

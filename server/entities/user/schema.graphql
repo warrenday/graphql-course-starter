@@ -16,12 +16,20 @@ type Query {
   me: User!
 }
 
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  name: String!
+  role: UserRole!
+}
+
 type Mutation {
-  signup(
-    email: String!
-    password: String!
-    name: String!
-    role: UserRole!
-  ): User!
-  login(email: String!, password: String!): User!
+  signup(input: SignupInput!): User!
+  login(input: LoginInput!): User!
+  logout: Boolean!
 }

@@ -14,8 +14,20 @@ import {
 } from "./catalyst/dropdown";
 import { Navbar, NavbarItem, NavbarSection } from "./catalyst/navbar";
 import { useLocation } from "react-router-dom";
+import { Button } from "./catalyst/button";
+import LoginAlert from "./LoginAlert";
+import { LoginInput, SignupInput } from "../providers/AuthProvider";
 
-const Header = () => {
+interface IHeaderProps {
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  onSignup: (input: SignupInput) => Promise<void>;
+  onLogin: (input: LoginInput) => Promise<void>;
+  onLogout: () => void;
+}
+
+const Header = (props: IHeaderProps) => {
+  const { isLoggedIn, isAdmin, onSignup, onLogin, onLogout } = props;
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -31,25 +43,36 @@ const Header = () => {
           <NavbarItem href="/profile" current={currentPath === "/profile"}>
             Applications
           </NavbarItem>
+          {isAdmin && (
+            <NavbarItem href="/admin" current={currentPath === "/admin"}>
+              Admin
+            </NavbarItem>
+          )}
         </NavbarSection>
 
-        <Dropdown>
-          <DropdownButton as={NavbarItem}>
-            <Avatar initials="TW" className="bg-black text-white" square />
-          </DropdownButton>
-          <DropdownMenu className="min-w-64" anchor="bottom end">
-            <DropdownItem href="/profile">
-              <UserIcon />
-              <DropdownLabel>My profile</DropdownLabel>
-            </DropdownItem>
+        {isLoggedIn ? (
+          <Dropdown>
+            <DropdownButton as={NavbarItem}>
+              <Avatar initials="TW" className="bg-black text-white" square />
+            </DropdownButton>
+            <DropdownMenu className="min-w-64" anchor="bottom end">
+              <DropdownItem href="/profile">
+                <UserIcon />
+                <DropdownLabel>My profile</DropdownLabel>
+              </DropdownItem>
 
-            <DropdownDivider />
-            <DropdownItem href="/logout">
-              <ArrowRightStartOnRectangleIcon />
-              <DropdownLabel>Sign out</DropdownLabel>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+              <DropdownDivider />
+              <DropdownItem onClick={onLogout}>
+                <ArrowRightStartOnRectangleIcon />
+                <DropdownLabel>Sign out</DropdownLabel>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <LoginAlert onLogin={onLogin} onSignup={onSignup}>
+            <Button>Login</Button>
+          </LoginAlert>
+        )}
       </Navbar>
     </header>
   );

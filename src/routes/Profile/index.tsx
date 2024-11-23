@@ -1,4 +1,4 @@
-import { JobType } from "../../components/JobCard";
+import { IJob, JobType } from "../../components/JobCard";
 import Profile from "./Profile";
 
 // Mock data (in a real app, this would come from your backend)
@@ -8,13 +8,13 @@ const user = {
   initials: "TW",
 };
 
-const appliedJobs = [
+const appliedJobs: IJob[] = [
   {
     id: "1",
     title: "Software Engineer",
     company: "Google",
     location: "New York, NY",
-    createdAt: "2024-03-01",
+    createdAt: new Date("2024-03-01"),
     type: JobType.FULL_TIME,
     remote: true,
     salary: 120000,
@@ -25,7 +25,7 @@ const appliedJobs = [
     title: "System Engineer",
     company: "Amazon",
     location: "Seattle, WA",
-    createdAt: "2024-03-05",
+    createdAt: new Date("2024-03-05"),
     type: JobType.FULL_TIME,
     remote: false,
     salary: 100000,

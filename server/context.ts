@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { YogaInitialContext } from "graphql-yoga";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = "your-secret-key"; // In production, always use environment variable
@@ -9,12 +9,13 @@ export interface Context {
   auth: {
     user: { id: string };
     login: (userId: string) => void;
+    logout: () => void;
   };
 }
 
-const createContext = async (initialContext?: YogaInitialContext) => {
-  const token = await initialContext?.request.cookieStore?.get("token");
-  const userId = token ? jwt.verify(token.value, JWT_SECRET) : null;
+const createContext = async ({ req, res }: { req: Request; res: Response }) => {
+  const token = req.cookies?.token;
+  const userId = token ? jwt.verify(token, JWT_SECRET) : null;
 
   return {
     prisma: new PrismaClient(),
@@ -22,12 +23,14 @@ const createContext = async (initialContext?: YogaInitialContext) => {
       user: { id: userId },
       login: (userId: string) => {
         const token = jwt.sign({ userId }, JWT_SECRET);
-        initialContext?.request.cookieStore?.set({
-          name: "token",
-          value: token,
+        res.cookie("token", token, {
           domain: "localhost",
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
         });
+      },
+      logout: () => {
+        res.clearCookie("token");
       },
     },
   };

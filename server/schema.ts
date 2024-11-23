@@ -1,5 +1,5 @@
 import "graphql-import-node";
-import { createSchema } from "graphql-yoga";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import {
   resolvers as userResolvers,
   typeDefs as userTypeDefs,
@@ -17,7 +17,7 @@ import {
   resolvers as scalarResolvers,
 } from "./scalars";
 
-const schema = createSchema({
+const schema = makeExecutableSchema({
   typeDefs: [scalarTypeDefs, userTypeDefs, jobTypeDefs, companyTypeDefs],
   resolvers: {
     ...scalarResolvers,

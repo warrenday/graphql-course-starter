@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./components/Layout";
+import Layout from "./containers/Layout";
 import JobBoardRoute from "./routes/JobBoard";
 import ProfileRoute from "./routes/Profile";
 import AdminRoute from "./routes/Admin";

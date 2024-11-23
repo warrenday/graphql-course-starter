@@ -9,8 +9,8 @@ import { Input } from "../../components/catalyst/input";
 import { Select } from "../../components/catalyst/select";
 import { Switch, SwitchField } from "../../components/catalyst/switch";
 import { Button } from "../../components/catalyst/button";
-import { JobType } from "../../components/JobCard";
 import { useForm } from "react-hook-form";
+import { JobType } from "../../components/JobCard";
 
 interface JobFormData {
   title: string;

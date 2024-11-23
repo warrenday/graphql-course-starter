@@ -23,7 +23,7 @@ const resolvers: Resolvers = {
   },
   Mutation: {
     signup: async (root, args, context) => {
-      const { email, name, role, password } = args;
+      const { email, name, role, password } = args.input;
 
       // Create user in database
       const user = await context.prisma.user.create({
@@ -44,7 +44,7 @@ const resolvers: Resolvers = {
       };
     },
     login: async (root, args, context) => {
-      const { email, password } = args;
+      const { email, password } = args.input;
 
       // Find user by email
       const user = await context.prisma.user.findUnique({
@@ -66,6 +66,10 @@ const resolvers: Resolvers = {
         ...user,
         role: user.role as UserRole,
       };
+    },
+    logout: async (root, args, context) => {
+      context.auth.logout();
+      return true;
     },
   },
 };

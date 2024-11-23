@@ -46,9 +46,10 @@ const JobBoard = () => {
       <div className="flex flex-col gap-4">
         {results.map((job) => (
           <JobCard
+            key={job.id}
             icon="https://via.placeholder.com/150"
             title={job.title}
-            company={job.company}
+            company={job.company.name}
             location={job.location}
             createdAt={job.createdAt}
             type={job.type}
