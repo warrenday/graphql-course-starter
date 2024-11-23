@@ -8,7 +8,7 @@ export type SearchJobsQueryVariables = Types.Exact<{
 }>;
 
 
-export type SearchJobsQuery = { __typename?: 'Query', searchJobs: Array<{ __typename?: 'Job', id: string, title: string, location: string, type: Types.JobType, remote: boolean, salary: number, createdAt: Date, company: { __typename?: 'Company', id: string, name: string } }> };
+export type SearchJobsQuery = { __typename?: 'Query', searchJobs: Array<{ __typename?: 'Job', id: string, title: string, location: string, type: Types.JobType, remote: boolean, salary: number, createdAt: Date, isApplied: boolean, company: { __typename?: 'Company', id: string, name: string } }> };
 
 export type ApplyForJobMutationVariables = Types.Exact<{
   input: Types.ApplyForJobInput;
@@ -32,6 +32,7 @@ export const SearchJobsDocument = gql`
       name
     }
     createdAt
+    isApplied
   }
 }
     `;

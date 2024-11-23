@@ -55,6 +55,7 @@ export type Job = {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  isApplied: Scalars['Boolean']['output'];
   location: Scalars['String']['output'];
   remote: Scalars['Boolean']['output'];
   salary: Scalars['Int']['output'];
@@ -280,6 +281,7 @@ export type JobResolvers<ContextType = Context, ParentType extends ResolversPare
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  isApplied?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   location?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   remote?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   salary?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;

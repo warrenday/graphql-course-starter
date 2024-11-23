@@ -1,3 +1,4 @@
+import client from "../../client";
 import { Button } from "../../components/catalyst/button";
 import {
   Dialog,
@@ -18,7 +19,18 @@ const ApplyDialog = (props: IApplyDialogProps) => {
   const { isOpen, onClose, jobId } = props;
   const { isLoggedIn } = useAuth();
 
-  const [applyForJob, { loading }] = useApplyForJobMutation();
+  const [applyForJob, { loading }] = useApplyForJobMutation({
+    // Could update cache here... Explain this.
+    refetchQueries: ["Profile"],
+    onCompleted: () => {
+      client.cache.modify({
+        id: `Job:${jobId}`,
+        fields: {
+          isApplied: () => true,
+        },
+      });
+    },
+  });
 
   const handleApply = async () => {
     await applyForJob({ variables: { input: { id: jobId } } });

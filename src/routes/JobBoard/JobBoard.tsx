@@ -7,6 +7,7 @@ import JobCard from "../../components/JobCard";
 import { Button } from "../../components/catalyst/button";
 import { Spinner } from "../../components/catalyst/spinner";
 import EmptyState from "../../components/EmptyState";
+import { Text } from "../../components/catalyst/text";
 
 const JobBoard = () => {
   const { search, setSearch, results, isLoading } = useSearchJobs();
@@ -57,7 +58,19 @@ const JobBoard = () => {
             remote={job.remote}
             salary={job.salary}
             action={
-              <Button onClick={() => setApplyJobId(job.id)}>Apply</Button>
+              <div className="flex gap-4 items-center">
+                {job.isApplied && (
+                  <Text className="text-sm text-blue-400 font-medium">
+                    Awaiting response
+                  </Text>
+                )}
+                <Button
+                  onClick={() => setApplyJobId(job.id)}
+                  disabled={job.isApplied}
+                >
+                  Apply
+                </Button>
+              </div>
             }
           />
         ))}

@@ -49,6 +49,7 @@ export type Job = {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  isApplied: Scalars['Boolean']['output'];
   location: Scalars['String']['output'];
   remote: Scalars['Boolean']['output'];
   salary: Scalars['Int']['output'];

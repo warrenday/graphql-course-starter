@@ -1,3 +1,4 @@
+import client from "../../client";
 import { useCancelApplicationMutation } from "./queries.generated";
 
 const useCancelApplication = () => {
@@ -9,6 +10,14 @@ const useCancelApplication = () => {
       await cancelApplicationMutation({
         variables: { input: { id } },
         refetchQueries: ["Profile"],
+        onCompleted: () => {
+          client.cache.modify({
+            id: `Job:${id}`,
+            fields: {
+              isApplied: () => false,
+            },
+          });
+        },
       });
     },
     isLoading: loading,

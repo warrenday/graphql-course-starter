@@ -15,6 +15,7 @@ type Job {
   salary: Int!
   createdAt: DateTime!
   updatedAt: DateTime!
+  isApplied: Boolean!
 }
 
 input SearchJobsInput {
