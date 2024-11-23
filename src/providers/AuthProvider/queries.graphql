@@ -1,26 +1,25 @@
+fragment User on User {
+  id
+  email
+  name
+  role
+}
+
 query Me {
   me {
-    id
-    email
-    role
+    ...User
   }
 }
 
 mutation Signup($input: SignupInput!) {
   signup(input: $input) {
-    id
-    email
-    name
-    role
+    ...User
   }
 }
 
 mutation Login($input: LoginInput!) {
   login(input: $input) {
-    id
-    email
-    name
-    role
+    ...User
   }
 }
 

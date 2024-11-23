@@ -3,10 +3,12 @@ import * as Types from '../../types/graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
+export type UserFragment = { __typename?: 'User', id: string, email: string, name: string, role: Types.UserRole };
+
 export type MeQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string, role: Types.UserRole } };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, name: string, role: Types.UserRole } | null };
 
 export type SignupMutationVariables = Types.Exact<{
   input: Types.SignupInput;
@@ -27,16 +29,21 @@ export type LogoutMutationVariables = Types.Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
-
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  id
+  email
+  name
+  role
+}
+    `;
 export const MeDocument = gql`
     query Me {
   me {
-    id
-    email
-    role
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 
 /**
  * __useMeQuery__
@@ -72,13 +79,10 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const SignupDocument = gql`
     mutation Signup($input: SignupInput!) {
   signup(input: $input) {
-    id
-    email
-    name
-    role
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
 
 /**
@@ -108,13 +112,10 @@ export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, S
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
   login(input: $input) {
-    id
-    email
-    name
-    role
+    ...User
   }
 }
-    `;
+    ${UserFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**

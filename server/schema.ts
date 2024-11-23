@@ -19,12 +19,7 @@ import {
 
 const schema = makeExecutableSchema({
   typeDefs: [scalarTypeDefs, userTypeDefs, jobTypeDefs, companyTypeDefs],
-  resolvers: {
-    ...scalarResolvers,
-    ...userResolvers,
-    ...jobResolvers,
-    ...companyResolvers,
-  },
+  resolvers: [scalarResolvers, userResolvers, jobResolvers, companyResolvers],
 });
 
 export default schema;

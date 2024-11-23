@@ -12,10 +12,6 @@ type User {
   ownedJobs: [Job!]!
 }
 
-type Query {
-  me: User!
-}
-
 input LoginInput {
   email: String!
   password: String!
@@ -32,4 +28,8 @@ type Mutation {
   signup(input: SignupInput!): User!
   login(input: LoginInput!): User!
   logout: Boolean!
+}
+
+type Query {
+  me: User
 }

@@ -3,8 +3,8 @@ import type { Resolvers, UserRole } from "../../types/resolvers-types";
 const resolvers: Resolvers = {
   Query: {
     me: async (root, args, context) => {
-      if (!context.auth.user.id) {
-        throw new Error("Unauthorized");
+      if (!context.auth.user) {
+        return null;
       }
 
       const user = await context.prisma.user.findUnique({
@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
       });
 
       if (!user) {
-        throw new Error("User not found");
+        return null;
       }
 
       return {

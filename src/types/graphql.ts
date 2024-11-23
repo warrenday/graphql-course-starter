@@ -66,7 +66,7 @@ export type MutationSignupArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  me: User;
+  me?: Maybe<User>;
   searchJobs: Array<Job>;
 };
 

@@ -37,7 +37,8 @@
     "react-scripts": "5.0.1",
     "start": "^5.1.0",
     "tsx": "^4.19.2",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "zod": "^3.23.8"
   },
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
@@ -45,7 +46,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:client": "react-scripts start",
-    "start:server": "tsx server/index.ts",
+    "start:server": "tsx watch server/index.ts",
     "migrate": "prisma migrate dev --schema=./server/prisma/schema.prisma",
     "codegen": "graphql-codegen --config codegen.ts && npx prisma generate --schema=./server/prisma/schema.prisma"
   },

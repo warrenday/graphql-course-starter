@@ -12,7 +12,7 @@ import { Checkbox, CheckboxField } from "./catalyst/checkbox";
 import { cloneElement, ReactElement } from "react";
 import { SignupInput, LoginInput } from "../providers/AuthProvider";
 import { UserRole } from "../types/graphql";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 interface LoginAlertProps {
   children: ReactElement;
@@ -59,7 +59,7 @@ const LoginAlert = ({ children, onLogin, onSignup }: LoginAlertProps) => {
         email: data.email,
         password: data.password,
         name: data.name,
-        role: UserRole.USER,
+        isAdmin: data.isAdmin,
       });
       setIsOpen(false);
     } catch (error) {
@@ -172,6 +172,7 @@ const SignupForm = ({
 }) => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<SignupFormData>();
@@ -225,11 +226,13 @@ const SignupForm = ({
         </Field>
 
         <CheckboxField>
-          <Checkbox
-            checked={false}
-            onChange={(checked) => {
-              register("isAdmin").onChange({ target: { checked } });
-            }}
+          <Controller
+            name="isAdmin"
+            control={control}
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
+              <Checkbox checked={value} onChange={onChange} />
+            )}
           />
           <Label>Admin Account</Label>
         </CheckboxField>
