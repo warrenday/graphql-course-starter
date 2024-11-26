@@ -2,6 +2,7 @@
 CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -25,7 +26,6 @@ CREATE TABLE "Job" (
     "type" TEXT NOT NULL,
     "remote" BOOLEAN NOT NULL,
     "salary" INTEGER NOT NULL,
-    "icon" TEXT NOT NULL,
     "companyId" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
