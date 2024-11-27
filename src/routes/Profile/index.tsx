@@ -1,8 +1,16 @@
 import Profile from "./Profile";
-import { useProfileQuery } from "./queries.generated";
 
 const ProfileRoute = () => {
-  const { data } = useProfileQuery();
+  const { data } = {
+    data: {
+      me: {
+        id: "1",
+        name: "John Doe",
+        email: "john.doe@example.com",
+        appliedJobs: [],
+      },
+    },
+  };
 
   const user = {
     id: data?.me?.id,

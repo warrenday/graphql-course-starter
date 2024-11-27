@@ -1,4 +1,3 @@
-import client from "../../client";
 import { Button } from "../../components/ui/button";
 import {
   Dialog,
@@ -7,7 +6,6 @@ import {
   DialogTitle,
 } from "../../components/ui/dialog";
 import { useAuth } from "../../providers/AuthProvider";
-import { useApplyForJobMutation } from "./queries.generated";
 
 interface IApplyDialogProps {
   isOpen: boolean;
@@ -18,22 +16,9 @@ interface IApplyDialogProps {
 const ApplyDialog = (props: IApplyDialogProps) => {
   const { isOpen, onClose, jobId } = props;
   const { isLoggedIn } = useAuth();
-
-  const [applyForJob, { loading }] = useApplyForJobMutation({
-    // Could update cache here... Explain this.
-    refetchQueries: ["Profile"],
-    onCompleted: () => {
-      client.cache.modify({
-        id: `Job:${jobId}`,
-        fields: {
-          isApplied: () => true,
-        },
-      });
-    },
-  });
+  const loading = false;
 
   const handleApply = async () => {
-    await applyForJob({ variables: { input: { id: jobId } } });
     onClose();
   };
 

@@ -1,15 +1,4 @@
 import { ReactNode, createContext, useContext } from "react";
-import {
-  MeDocument,
-  MeQuery,
-  useLoginMutation,
-  useLogoutMutation,
-  useMeQuery,
-  useSignupMutation,
-} from "./queries.generated";
-import client from "../../client";
-import { UserRole } from "../../types/graphql";
-import { useNavigate } from "react-router-dom";
 
 export interface SignupInput {
   email: string;
@@ -24,7 +13,7 @@ export interface LoginInput {
 }
 
 interface AuthContextType {
-  user: MeQuery["me"] | null;
+  user: any;
   isLoading: boolean;
   error: Error | null;
   isLoggedIn: boolean;
@@ -36,58 +25,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data, loading, error } = useMeQuery({
-    fetchPolicy: "cache-first",
-  });
-
   const value = {
-    user: data?.me || null,
-    isLoading: loading,
-    error: error || null,
-    isLoggedIn: !!data?.me,
+    user: null,
+    isLoading: false,
+    error: null,
+    isLoggedIn: false,
   };
 
-  const [signupMutation] = useSignupMutation({
-    onCompleted: (data, opts) => {
-      // update cache for me query
-      client.cache.writeQuery({
-        query: MeDocument,
-        data: { me: data.signup },
-      });
-    },
-  });
-  const [loginMutation] = useLoginMutation({
-    onCompleted: (data, opts) => {
-      client.cache.writeQuery({
-        query: MeDocument,
-        data: { me: data.login },
-      });
-    },
-  });
-  const [logoutMutation] = useLogoutMutation({
-    onCompleted: () => {
-      client.cache.reset();
-      window.location.href = "/";
-    },
-  });
-  const signup = async (input: SignupInput) => {
-    await signupMutation({
-      variables: {
-        input: {
-          name: input.name,
-          email: input.email,
-          password: input.password,
-          role: input.isAdmin ? UserRole.ADMIN : UserRole.USER,
-        },
-      },
-    });
-  };
-  const login = async (input: LoginInput) => {
-    await loginMutation({ variables: { input } });
-  };
-  const logout = async () => {
-    await logoutMutation();
-  };
+  const signup = async (input: SignupInput) => {};
+  const login = async (input: LoginInput) => {};
+  const logout = async () => {};
 
   return (
     <AuthContext.Provider value={{ ...value, signup, login, logout }}>
