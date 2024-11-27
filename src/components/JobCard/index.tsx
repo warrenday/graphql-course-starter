@@ -1,10 +1,10 @@
 import formatSalary from "../../helpers/formatSalary";
 import { getInitials } from "../../helpers/getInitials";
 import timeSinceDate from "../../helpers/timeSinceDate";
-import { Avatar } from "../catalyst/avatar";
-import { Badge } from "../catalyst/badge";
-import { Heading } from "../catalyst/heading";
-import { Text } from "../catalyst/text";
+import { Avatar } from "../ui/avatar";
+import { Badge } from "../ui/badge";
+import { Heading } from "../ui/heading";
+import { Text } from "../ui/text";
 
 export enum JobType {
   FULL_TIME = "FULL_TIME",

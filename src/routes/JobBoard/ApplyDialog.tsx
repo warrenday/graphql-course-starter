@@ -1,11 +1,11 @@
 import client from "../../client";
-import { Button } from "../../components/catalyst/button";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogActions,
   DialogDescription,
   DialogTitle,
-} from "../../components/catalyst/dialog";
+} from "../../components/ui/dialog";
 import { useAuth } from "../../providers/AuthProvider";
 import { useApplyForJobMutation } from "./queries.generated";
 

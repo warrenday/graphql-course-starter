@@ -5,9 +5,8 @@ The demo application for the Overstacked Full Stack GraphQL course.
 ## Setup
 
 1. Install dependencies: `npm install`
-2. Run the database migrations: `npm run migrate`
-3. Run the seed script: `npm run seed`
-4. Start the development server: `npm run start`
+2. Run the seed script: `npm run seed`
+3. Start the development server: `npm run start`
 
 ## App Details
 

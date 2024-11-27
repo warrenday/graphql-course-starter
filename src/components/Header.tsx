@@ -1,4 +1,4 @@
-import { Avatar } from "./catalyst/avatar";
+import { Avatar } from "./ui/avatar";
 import {
   ArrowRightStartOnRectangleIcon,
   UserIcon,
@@ -11,10 +11,10 @@ import {
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
-} from "./catalyst/dropdown";
-import { Navbar, NavbarItem, NavbarSection } from "./catalyst/navbar";
+} from "./ui/dropdown";
+import { Navbar, NavbarItem, NavbarSection } from "./ui/navbar";
 import { useLocation } from "react-router-dom";
-import { Button } from "./catalyst/button";
+import { Button } from "./ui/button";
 import LoginAlert from "./LoginAlert";
 import { LoginInput, SignupInput } from "../providers/AuthProvider";
 
@@ -24,10 +24,11 @@ interface IHeaderProps {
   onSignup: (input: SignupInput) => Promise<void>;
   onLogin: (input: LoginInput) => Promise<void>;
   onLogout: () => void;
+  initials: string;
 }
 
 const Header = (props: IHeaderProps) => {
-  const { isLoggedIn, isAdmin, onSignup, onLogin, onLogout } = props;
+  const { initials, isLoggedIn, isAdmin, onSignup, onLogin, onLogout } = props;
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -40,9 +41,11 @@ const Header = (props: IHeaderProps) => {
           <NavbarItem href="/" current={currentPath === "/"}>
             Job Search
           </NavbarItem>
-          <NavbarItem href="/profile" current={currentPath === "/profile"}>
-            Applications
-          </NavbarItem>
+          {isLoggedIn && (
+            <NavbarItem href="/profile" current={currentPath === "/profile"}>
+              Applications
+            </NavbarItem>
+          )}
           {isAdmin && (
             <NavbarItem href="/admin" current={currentPath === "/admin"}>
               Admin
@@ -53,7 +56,11 @@ const Header = (props: IHeaderProps) => {
         {isLoggedIn ? (
           <Dropdown>
             <DropdownButton as={NavbarItem}>
-              <Avatar initials="TW" className="bg-black text-white" square />
+              <Avatar
+                initials={initials}
+                className="bg-black text-white"
+                square
+              />
             </DropdownButton>
             <DropdownMenu className="min-w-64" anchor="bottom end">
               <DropdownItem href="/profile">

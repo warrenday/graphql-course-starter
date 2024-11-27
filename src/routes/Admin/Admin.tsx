@@ -1,13 +1,13 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { Button } from "../../components/catalyst/button";
+import { Button } from "../../components/ui/button";
 import JobCard, { IJob } from "../../components/JobCard";
 import {
   Alert,
   AlertActions,
   AlertDescription,
   AlertTitle,
-} from "../../components/catalyst/alert";
+} from "../../components/ui/alert";
 import CreateJobDialog from "./CreateJobDialog";
 import useDeleteJob from "./useDeleteJob";
 import EmptyState from "../../components/EmptyState";

@@ -4,16 +4,16 @@ import {
   AlertActions,
   AlertDescription,
   AlertTitle,
-} from "../../components/catalyst/alert";
-import { Avatar } from "../../components/catalyst/avatar";
-import { Button } from "../../components/catalyst/button";
+} from "../../components/ui/alert";
+import { Avatar } from "../../components/ui/avatar";
+import { Button } from "../../components/ui/button";
 import {
   DescriptionList,
   DescriptionTerm,
   DescriptionDetails,
-} from "../../components/catalyst/description-list";
-import { Heading } from "../../components/catalyst/heading";
-import { Text } from "../../components/catalyst/text";
+} from "../../components/ui/description-list";
+import { Heading } from "../../components/ui/heading";
+import { Text } from "../../components/ui/text";
 import JobCard, { IJob } from "../../components/JobCard";
 import useCancelApplication from "./useCancelApplication";
 import EmptyState from "../../components/EmptyState";

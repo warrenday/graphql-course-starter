@@ -3,12 +3,12 @@ import {
   DialogBody,
   DialogTitle,
   DialogActions,
-} from "../../components/catalyst/dialog";
-import { Field, Label } from "../../components/catalyst/fieldset";
-import { Input } from "../../components/catalyst/input";
-import { Select } from "../../components/catalyst/select";
-import { Switch, SwitchField } from "../../components/catalyst/switch";
-import { Button } from "../../components/catalyst/button";
+} from "../../components/ui/dialog";
+import { Field, Label } from "../../components/ui/fieldset";
+import { Input } from "../../components/ui/input";
+import { Select } from "../../components/ui/select";
+import { Switch, SwitchField } from "../../components/ui/switch";
+import { Button } from "../../components/ui/button";
 import { useForm } from "react-hook-form";
 import { JobType } from "../../components/JobCard";
 import { useCreateJobMutation } from "./queries.generated";

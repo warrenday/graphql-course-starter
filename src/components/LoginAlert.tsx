@@ -1,17 +1,11 @@
 import { useState } from "react";
-import {
-  Alert,
-  AlertTitle,
-  AlertDescription,
-  AlertActions,
-} from "./catalyst/alert";
-import { Field, Label, ErrorMessage } from "./catalyst/fieldset";
-import { Input } from "./catalyst/input";
-import { Button } from "./catalyst/button";
-import { Checkbox, CheckboxField } from "./catalyst/checkbox";
+import { Alert, AlertTitle, AlertDescription, AlertActions } from "./ui/alert";
+import { Field, Label, ErrorMessage } from "./ui/fieldset";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { Checkbox, CheckboxField } from "./ui/checkbox";
 import { cloneElement, ReactElement } from "react";
 import { SignupInput, LoginInput } from "../providers/AuthProvider";
-import { UserRole } from "../types/graphql";
 import { Controller, useForm } from "react-hook-form";
 
 interface LoginAlertProps {

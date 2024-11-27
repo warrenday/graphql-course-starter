@@ -9,6 +9,7 @@ import {
 } from "./queries.generated";
 import client from "../../client";
 import { UserRole } from "../../types/graphql";
+import { useNavigate } from "react-router-dom";
 
 export interface SignupInput {
   email: string;
@@ -66,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [logoutMutation] = useLogoutMutation({
     onCompleted: () => {
       client.cache.reset();
+      window.location.href = "/";
     },
   });
   const signup = async (input: SignupInput) => {

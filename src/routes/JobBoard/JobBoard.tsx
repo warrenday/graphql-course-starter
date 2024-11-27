@@ -2,12 +2,12 @@ import { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import ApplyDialog from "./ApplyDialog";
 import useSearchJobs from "./useSearchJobs";
-import { Input } from "../../components/catalyst/input";
+import { Input } from "../../components/ui/input";
 import JobCard from "../../components/JobCard";
-import { Button } from "../../components/catalyst/button";
-import { Spinner } from "../../components/catalyst/spinner";
+import { Button } from "../../components/ui/button";
+import { Spinner } from "../../components/ui/spinner";
 import EmptyState from "../../components/EmptyState";
-import { Text } from "../../components/catalyst/text";
+import { Text } from "../../components/ui/text";
 
 const JobBoard = () => {
   const { search, setSearch, results, isLoading } = useSearchJobs();
