@@ -1,4 +1,4 @@
-# GraphQL Jobs
+# Graph Hire
 
 The demo application for the Overstacked Full Stack GraphQL course.
 
