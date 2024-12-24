@@ -1,9 +1,8 @@
 import DataLoader from "dataloader";
-import { DataloaderArgs } from "./index";
+import { IDataloaderArgs } from "./index";
 
-const createIsAppliedForJobDataloader = (args: DataloaderArgs) => {
+const createIsAppliedForJobDataloader = (args: IDataloaderArgs) => {
   const { prisma, userId } = args;
-
   return new DataLoader(async (keys: readonly string[]) => {
     const counts = await prisma.job.findMany({
       where: {
@@ -13,9 +12,8 @@ const createIsAppliedForJobDataloader = (args: DataloaderArgs) => {
       select: { id: true },
     });
 
-    console.log(counts);
+    const countSet = new Set(counts.map((count) => count.id));
 
-    const countSet = new Set(counts.map((job) => job.id));
     return keys.map((key) => countSet.has(key));
   });
 };

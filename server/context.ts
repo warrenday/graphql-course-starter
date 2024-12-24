@@ -53,7 +53,10 @@ const createContext = async ({ req, res }: { req: Request; res: Response }) => {
         res.clearCookie("token");
       },
     },
-    dataloaders: createDataloaders({ prisma, userId: user?.id }),
+    dataloaders: createDataloaders({
+      prisma,
+      userId: user?.id,
+    }),
   };
 };
 

@@ -1,12 +1,12 @@
-import createIsAppliedForJobDataloader from "./isAppliedForJobDataloader";
 import { PrismaClient } from "@prisma/client";
+import createIsAppliedForJobDataloader from "./isAppliedForJobDataloader";
 
-export interface DataloaderArgs {
+export interface IDataloaderArgs {
   prisma: PrismaClient;
   userId?: string;
 }
 
-const createDataloaders = (args: DataloaderArgs) => {
+const createDataloaders = (args: IDataloaderArgs) => {
   return {
     isAppliedForJob: createIsAppliedForJobDataloader(args),
   };
