@@ -8,6 +8,7 @@
     "@graphql-codegen/cli": "^5.0.3",
     "@graphql-codegen/typescript": "^4.1.1",
     "@graphql-codegen/typescript-resolvers": "^4.4.0",
+    "@graphql-tools/jest-transform": "^2.0.0",
     "@graphql-tools/schema": "^10.0.9",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
@@ -20,6 +21,7 @@
     "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "babel-jest": "^29.7.0",
     "clsx": "^2.1.1",
     "concurrently": "^9.1.0",
     "cookie-parser": "^1.4.7",
@@ -29,7 +31,9 @@
     "framer-motion": "^11.11.17",
     "graphql": "^16.9.0",
     "graphql-import-node": "^0.0.5",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
+    "lodash.merge": "^4.6.2",
     "prisma": "^5.22.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -44,7 +48,8 @@
   "scripts": {
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test:fe": "react-scripts test",
+    "test:be": "jest --config=jest.be.config.js",
     "eject": "react-scripts eject",
     "start:client": "react-scripts start",
     "start:server": "tsx watch server/index.ts",
@@ -74,8 +79,10 @@
     "@graphql-codegen/near-operation-file-preset": "^3.0.0",
     "@graphql-codegen/typescript-operations": "^4.3.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.2",
+    "@types/lodash": "^4.17.13",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.15"
+    "tailwindcss": "^3.4.15",
+    "ts-jest": "^29.2.5"
   }
 }

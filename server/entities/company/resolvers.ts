@@ -1,5 +1,5 @@
-import type { Resolvers } from "../../types/resolvers-types";
+import type { IResolvers } from "../../types/resolvers-types";
 
-const resolvers: Resolvers = {};
+const resolvers: IResolvers = {};
 
 export default resolvers;

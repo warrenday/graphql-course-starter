@@ -1,6 +1,6 @@
-import { Resolvers, UserRole } from "../../types/resolvers-types";
+import { IResolvers, IUserRole } from "../../types/resolvers-types";
 
-const resolvers: Resolvers = {
+const resolvers: IResolvers = {
   User: {
     appliedJobs: async (user, args, context) => {
       return context.prisma.job.findMany({
@@ -33,7 +33,7 @@ const resolvers: Resolvers = {
 
       return {
         ...user,
-        role: user.role as UserRole,
+        role: user.role as IUserRole,
       };
     },
   },
@@ -54,12 +54,12 @@ const resolvers: Resolvers = {
 
       context.auth.login({
         id: user.id,
-        isAdmin: user.role === UserRole.Admin,
+        isAdmin: user.role === IUserRole.Admin,
       });
 
       return {
         ...user,
-        role: user.role as UserRole,
+        role: user.role as IUserRole,
       };
     },
     login: async (root, args, context) => {
@@ -81,12 +81,12 @@ const resolvers: Resolvers = {
 
       context.auth.login({
         id: user.id,
-        isAdmin: user.role === UserRole.Admin,
+        isAdmin: user.role === IUserRole.Admin,
       });
 
       return {
         ...user,
-        role: user.role as UserRole,
+        role: user.role as IUserRole,
       };
     },
     logout: async (root, args, context) => {
