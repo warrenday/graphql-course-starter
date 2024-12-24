@@ -1,6 +1,6 @@
-import type { Resolvers, JobType } from "../../types/resolvers-types";
+import type { IResolvers } from "../../types/resolvers-types";
 
-const resolvers: Resolvers = {
+const resolvers: IResolvers = {
   Job: {
     company: async (job, args, context) => {
       const company = await context.prisma.company.findUnique({
@@ -33,7 +33,7 @@ const resolvers: Resolvers = {
 
       return jobs.map((job) => ({
         ...job,
-        type: job.type as JobType,
+        type: job.type,
       }));
     },
   },

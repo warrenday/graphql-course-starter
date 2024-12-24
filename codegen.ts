@@ -7,6 +7,7 @@ const config: CodegenConfig = {
     "./server/types/resolvers-types.ts": {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
+        typesPrefix: "I",
         contextType: "../context#Context",
         defaultMapper: "Partial<{T}>",
         scalars: {
@@ -14,7 +15,6 @@ const config: CodegenConfig = {
         },
         mappers: {
           Job: "@prisma/client#Job",
-          JobType: "@prisma/client#JobType",
         },
       },
     },
