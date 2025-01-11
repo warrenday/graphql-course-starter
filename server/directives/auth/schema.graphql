@@ -1,0 +1,1 @@
+directive @auth(role: UserRole!) on FIELD_DEFINITION

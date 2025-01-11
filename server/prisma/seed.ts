@@ -37,7 +37,7 @@ async function main() {
     prisma.job.create({
       data: {
         title: "Senior Software Engineer",
-        location: "Mountain View, CA",
+        location: "London, UK",
         description: "Join our team to work on cutting-edge technology",
         type: "FULL_TIME",
         remote: false,

@@ -13,13 +13,38 @@ import {
   typeDefs as companyTypeDefs,
 } from "./entities/company";
 import {
+  resolvers as addressResolvers,
+  typeDefs as addressTypeDefs,
+} from "./entities/address";
+import {
   typeDefs as scalarTypeDefs,
   resolvers as scalarResolvers,
 } from "./scalars";
 
+// Directives
+import {
+  typeDefs as authDirectiveTypeDefs,
+  directive as authDirective,
+} from "./directives/auth";
+
 const schema = makeExecutableSchema({
-  typeDefs: [scalarTypeDefs, userTypeDefs, jobTypeDefs, companyTypeDefs],
-  resolvers: [scalarResolvers, userResolvers, jobResolvers, companyResolvers],
+  typeDefs: [
+    scalarTypeDefs,
+    userTypeDefs,
+    jobTypeDefs,
+    companyTypeDefs,
+    addressTypeDefs,
+    authDirectiveTypeDefs,
+  ],
+  resolvers: [
+    scalarResolvers,
+    userResolvers,
+    jobResolvers,
+    companyResolvers,
+    addressResolvers,
+  ],
 });
 
-export default schema;
+const schemaWithDirectives = authDirective(schema);
+
+export default schemaWithDirectives;

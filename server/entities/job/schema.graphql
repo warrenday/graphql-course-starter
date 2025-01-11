@@ -8,7 +8,7 @@ type Job {
   id: ID!
   title: String!
   company: Company!
-  location: String!
+  location: String! @deprecated(reason: "Use officeAddress instead")
   description: String!
   type: JobType!
   remote: Boolean!
@@ -16,6 +16,7 @@ type Job {
   createdAt: DateTime!
   updatedAt: DateTime!
   isApplied: Boolean!
+  officeAddress: Address
 }
 
 input SearchJobsInput {
@@ -44,12 +45,16 @@ input CancelApplicationInput {
   id: ID!
 }
 
+type Subscription {
+  jobCreated: Job!
+}
+
 type Query {
   searchJobs(input: SearchJobsInput!): [Job!]!
 }
 
 type Mutation {
-  createJob(input: CreateJobInput!): Job!
+  createJob(input: CreateJobInput!): Job! @auth(role: ADMIN)
   deleteJob(input: DeleteJobInput!): Boolean!
   applyForJob(input: ApplyForJobInput!): Boolean!
   cancelApplication(input: CancelApplicationInput!): Boolean!

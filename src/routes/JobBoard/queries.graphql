@@ -12,6 +12,20 @@ query SearchJobs($input: SearchJobsInput!) {
     }
     createdAt
     isApplied
+    officeAddress {
+      ... on UKAddress {
+        addressLine1
+        addressLine2
+        city
+        postcode
+      }
+      ... on USAddress {
+        street
+        city
+        state
+        zip
+      }
+    }
   }
 }
 

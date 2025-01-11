@@ -1,0 +1,15 @@
+type USAddress {
+  street: String!
+  city: String!
+  state: String!
+  zip: String!
+}
+
+type UKAddress {
+  addressLine1: String!
+  addressLine2: String!
+  city: String!
+  postcode: String!
+}
+
+union Address = USAddress | UKAddress

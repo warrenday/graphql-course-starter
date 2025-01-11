@@ -20,6 +20,8 @@ export type Scalars = {
   DateTime: { input: Date; output: Date; }
 };
 
+export type IAddress = IUkAddress | IUsAddress;
+
 export type IApplyForJobInput = {
   id: Scalars['ID']['input'];
 };
@@ -55,7 +57,9 @@ export type IJob = {
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   isApplied: Scalars['Boolean']['output'];
+  /** @deprecated Use officeAddress instead */
   location: Scalars['String']['output'];
+  officeAddress?: Maybe<IAddress>;
   remote: Scalars['Boolean']['output'];
   salary: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -135,6 +139,27 @@ export type ISignupInput = {
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   role: IUserRole;
+};
+
+export type ISubscription = {
+  __typename?: 'Subscription';
+  jobCreated: IJob;
+};
+
+export type IUkAddress = {
+  __typename?: 'UKAddress';
+  addressLine1: Scalars['String']['output'];
+  addressLine2: Scalars['String']['output'];
+  city: Scalars['String']['output'];
+  postcode: Scalars['String']['output'];
+};
+
+export type IUsAddress = {
+  __typename?: 'USAddress';
+  city: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+  street: Scalars['String']['output'];
+  zip: Scalars['String']['output'];
 };
 
 export type IUser = {
@@ -219,10 +244,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type IResolversUnionTypes<_RefType extends Record<string, unknown>> = {
+  Address: ( Partial<IUkAddress> ) | ( Partial<IUsAddress> );
+};
 
 
 /** Mapping between all available schema types and the resolvers types */
 export type IResolversTypes = {
+  Address: Partial<ResolverTypeWrapper<IResolversUnionTypes<IResolversTypes>['Address']>>;
   ApplyForJobInput: ResolverTypeWrapper<Partial<IApplyForJobInput>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']['output']>>;
   CancelApplicationInput: ResolverTypeWrapper<Partial<ICancelApplicationInput>>;
@@ -240,12 +270,16 @@ export type IResolversTypes = {
   SearchJobsInput: ResolverTypeWrapper<Partial<ISearchJobsInput>>;
   SignupInput: ResolverTypeWrapper<Partial<ISignupInput>>;
   String: ResolverTypeWrapper<Partial<Scalars['String']['output']>>;
+  Subscription: ResolverTypeWrapper<{}>;
+  UKAddress: ResolverTypeWrapper<Partial<IUkAddress>>;
+  USAddress: ResolverTypeWrapper<Partial<IUsAddress>>;
   User: ResolverTypeWrapper<Partial<Omit<IUser, 'appliedJobs' | 'ownedJobs'> & { appliedJobs: Array<IResolversTypes['Job']>, ownedJobs: Array<IResolversTypes['Job']> }>>;
   UserRole: ResolverTypeWrapper<Partial<IUserRole>>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type IResolversParentTypes = {
+  Address: Partial<IResolversUnionTypes<IResolversParentTypes>['Address']>;
   ApplyForJobInput: Partial<IApplyForJobInput>;
   Boolean: Partial<Scalars['Boolean']['output']>;
   CancelApplicationInput: Partial<ICancelApplicationInput>;
@@ -262,7 +296,20 @@ export type IResolversParentTypes = {
   SearchJobsInput: Partial<ISearchJobsInput>;
   SignupInput: Partial<ISignupInput>;
   String: Partial<Scalars['String']['output']>;
+  Subscription: {};
+  UKAddress: Partial<IUkAddress>;
+  USAddress: Partial<IUsAddress>;
   User: Partial<Omit<IUser, 'appliedJobs' | 'ownedJobs'> & { appliedJobs: Array<IResolversParentTypes['Job']>, ownedJobs: Array<IResolversParentTypes['Job']> }>;
+};
+
+export type IAuthDirectiveArgs = {
+  role: IUserRole;
+};
+
+export type IAuthDirectiveResolver<Result, Parent, ContextType = Context, Args = IAuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type IAddressResolvers<ContextType = Context, ParentType extends IResolversParentTypes['Address'] = IResolversParentTypes['Address']> = {
+  __resolveType: TypeResolveFn<'UKAddress' | 'USAddress', ParentType, ContextType>;
 };
 
 export type ICompanyResolvers<ContextType = Context, ParentType extends IResolversParentTypes['Company'] = IResolversParentTypes['Company']> = {
@@ -282,6 +329,7 @@ export type IJobResolvers<ContextType = Context, ParentType extends IResolversPa
   id?: Resolver<IResolversTypes['ID'], ParentType, ContextType>;
   isApplied?: Resolver<IResolversTypes['Boolean'], ParentType, ContextType>;
   location?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  officeAddress?: Resolver<Maybe<IResolversTypes['Address']>, ParentType, ContextType>;
   remote?: Resolver<IResolversTypes['Boolean'], ParentType, ContextType>;
   salary?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
@@ -305,6 +353,26 @@ export type IQueryResolvers<ContextType = Context, ParentType extends IResolvers
   searchJobs?: Resolver<Array<IResolversTypes['Job']>, ParentType, ContextType, RequireFields<IQuerySearchJobsArgs, 'input'>>;
 };
 
+export type ISubscriptionResolvers<ContextType = Context, ParentType extends IResolversParentTypes['Subscription'] = IResolversParentTypes['Subscription']> = {
+  jobCreated?: SubscriptionResolver<IResolversTypes['Job'], "jobCreated", ParentType, ContextType>;
+};
+
+export type IUkAddressResolvers<ContextType = Context, ParentType extends IResolversParentTypes['UKAddress'] = IResolversParentTypes['UKAddress']> = {
+  addressLine1?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  addressLine2?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  city?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  postcode?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type IUsAddressResolvers<ContextType = Context, ParentType extends IResolversParentTypes['USAddress'] = IResolversParentTypes['USAddress']> = {
+  city?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  state?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  street?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  zip?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type IUserResolvers<ContextType = Context, ParentType extends IResolversParentTypes['User'] = IResolversParentTypes['User']> = {
   appliedJobs?: Resolver<Array<IResolversTypes['Job']>, ParentType, ContextType>;
   email?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
@@ -316,11 +384,18 @@ export type IUserResolvers<ContextType = Context, ParentType extends IResolversP
 };
 
 export type IResolvers<ContextType = Context> = {
+  Address?: IAddressResolvers<ContextType>;
   Company?: ICompanyResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Job?: IJobResolvers<ContextType>;
   Mutation?: IMutationResolvers<ContextType>;
   Query?: IQueryResolvers<ContextType>;
+  Subscription?: ISubscriptionResolvers<ContextType>;
+  UKAddress?: IUkAddressResolvers<ContextType>;
+  USAddress?: IUsAddressResolvers<ContextType>;
   User?: IUserResolvers<ContextType>;
 };
 
+export type IDirectiveResolvers<ContextType = Context> = {
+  auth?: IAuthDirectiveResolver<any, any, ContextType>;
+};

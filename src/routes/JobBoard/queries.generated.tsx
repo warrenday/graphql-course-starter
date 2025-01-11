@@ -8,7 +8,7 @@ export type SearchJobsQueryVariables = Types.Exact<{
 }>;
 
 
-export type SearchJobsQuery = { __typename?: 'Query', searchJobs: Array<{ __typename?: 'Job', id: string, title: string, location: string, type: Types.JobType, remote: boolean, salary: number, createdAt: Date, isApplied: boolean, company: { __typename?: 'Company', id: string, name: string } }> };
+export type SearchJobsQuery = { __typename?: 'Query', searchJobs: Array<{ __typename?: 'Job', id: string, title: string, location: string, type: Types.JobType, remote: boolean, salary: number, createdAt: Date, isApplied: boolean, company: { __typename?: 'Company', id: string, name: string }, officeAddress?: { __typename?: 'UKAddress', addressLine1: string, addressLine2: string, city: string, postcode: string } | { __typename?: 'USAddress', street: string, city: string, state: string, zip: string } | null }> };
 
 export type ApplyForJobMutationVariables = Types.Exact<{
   input: Types.ApplyForJobInput;
@@ -33,6 +33,20 @@ export const SearchJobsDocument = gql`
     }
     createdAt
     isApplied
+    officeAddress {
+      ... on UKAddress {
+        addressLine1
+        addressLine2
+        city
+        postcode
+      }
+      ... on USAddress {
+        street
+        city
+        state
+        zip
+      }
+    }
   }
 }
     `;

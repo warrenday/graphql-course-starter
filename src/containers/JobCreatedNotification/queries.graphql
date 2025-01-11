@@ -1,0 +1,6 @@
+subscription JobCreated {
+  jobCreated {
+    id
+    title
+  }
+}

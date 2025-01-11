@@ -1,7 +1,38 @@
+import { z } from "zod";
 import type { IResolvers } from "../../types/resolvers-types";
+import { GraphQLError } from "graphql";
+
+const createJobSchema = z.object({
+  title: z.string(),
+  location: z.string(),
+  description: z.string(),
+  type: z.string(),
+  remote: z.boolean(),
+  salary: z.number().min(1),
+  companyName: z.string(),
+});
 
 const resolvers: IResolvers = {
   Job: {
+    officeAddress: (job) => {
+      if (job.remote) {
+        return null;
+      }
+
+      return job.location.includes("UK")
+        ? {
+            addressLine1: "12 Almond Crescent",
+            addressLine2: "Balham",
+            city: "London",
+            postcode: "SW12 9AB",
+          }
+        : {
+            street: "123 Main Street",
+            city: "New York",
+            state: "NY",
+            zip: "10001",
+          };
+    },
     company: async (job, args, context) => {
       const company = await context.prisma.company.findUnique({
         where: { id: job.companyId },
@@ -18,9 +49,18 @@ const resolvers: IResolvers = {
       return isApplied;
     },
   },
+  Subscription: {
+    jobCreated: {
+      subscribe: (root, args, context) => {
+        return context.pubSub.asyncIterableIterator("JOB_CREATED");
+      },
+    },
+  },
   Query: {
     searchJobs: async (root, args, context) => {
       const { query } = args.input;
+
+      throw new GraphQLError("another error");
 
       const jobs = await context.prisma.job.findMany({
         where: {
@@ -39,10 +79,6 @@ const resolvers: IResolvers = {
   },
   Mutation: {
     createJob: async (root, args, context) => {
-      if (!context.auth.user?.isAdmin) {
-        throw new Error("Unauthorized");
-      }
-
       const {
         title,
         location,
@@ -52,6 +88,8 @@ const resolvers: IResolvers = {
         salary,
         companyName,
       } = args.input;
+
+      createJobSchema.parse(args.input);
 
       const job = await context.prisma.job.create({
         data: {
@@ -68,10 +106,14 @@ const resolvers: IResolvers = {
           },
           owner: {
             connect: {
-              id: context.auth.user.id,
+              id: context.auth.user?.id,
             },
           },
         },
+      });
+
+      context.pubSub.publish("JOB_CREATED", {
+        jobCreated: job,
       });
 
       return job;

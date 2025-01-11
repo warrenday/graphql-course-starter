@@ -12,6 +12,7 @@ import { Button } from "../../components/ui/button";
 import { useForm } from "react-hook-form";
 import { JobType } from "../../components/JobCard";
 import { useCreateJobMutation } from "./queries.generated";
+import Error from "../../components/Error";
 
 interface JobFormData {
   title: string;
@@ -31,7 +32,7 @@ interface ICreateJobDialogProps {
 const CreateJobDialog = (props: ICreateJobDialogProps) => {
   const { isOpen, onClose } = props;
 
-  const [createJob, { loading }] = useCreateJobMutation({
+  const [createJob, { loading, error }] = useCreateJobMutation({
     refetchQueries: ["Admin"],
   });
 
@@ -44,13 +45,17 @@ const CreateJobDialog = (props: ICreateJobDialogProps) => {
     });
 
   const onSubmit = async (data: JobFormData) => {
-    await createJob({
-      variables: {
-        input: data,
-      },
-    });
-    onClose();
-    reset();
+    try {
+      await createJob({
+        variables: {
+          input: data,
+        },
+      });
+      onClose();
+      reset();
+    } catch (error) {
+      // noop
+    }
   };
 
   const handleCancel = () => {
@@ -128,6 +133,7 @@ const CreateJobDialog = (props: ICreateJobDialogProps) => {
             </Field>
           </div>
         </DialogBody>
+        {error && <Error error={error} className="mt-4" />}
         <DialogActions>
           <Button plain onClick={handleCancel}>
             Cancel

@@ -2,4 +2,17 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
+import { mockAnimationsApi } from "jsdom-testing-mocks";
+
+mockAnimationsApi();
+
+jest.useFakeTimers();
+
+const originalError = console.error;
+global.console.error = (...args) => {
+  if (args[0].includes("Warning: `ReactDOMTestUtils.act`")) {
+    return;
+  }
+  originalError(...args);
+};

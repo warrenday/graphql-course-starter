@@ -18,6 +18,17 @@ const config: CodegenConfig = {
         },
       },
     },
+    "src/types/schema.json": {
+      plugins: ["introspection"],
+    },
+    "./src/types/mock-resolvers.ts": {
+      plugins: ["typescript", "typescript-resolvers"],
+      config: {
+        defaultMapper: "Partial<{T}>",
+        customResolverFn: "./custom-resolver#MockResolverFn",
+        useTypeImports: true,
+      },
+    },
     "src/types/graphql.ts": {
       plugins: ["typescript"],
       config: {

@@ -15,6 +15,8 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Address = UkAddress | UsAddress;
+
 export type ApplyForJobInput = {
   id: Scalars['ID']['input'];
 };
@@ -50,7 +52,9 @@ export type Job = {
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   isApplied: Scalars['Boolean']['output'];
+  /** @deprecated Use officeAddress instead */
   location: Scalars['String']['output'];
+  officeAddress?: Maybe<Address>;
   remote: Scalars['Boolean']['output'];
   salary: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -130,6 +134,27 @@ export type SignupInput = {
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
   role: UserRole;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  jobCreated: Job;
+};
+
+export type UkAddress = {
+  __typename?: 'UKAddress';
+  addressLine1: Scalars['String']['output'];
+  addressLine2: Scalars['String']['output'];
+  city: Scalars['String']['output'];
+  postcode: Scalars['String']['output'];
+};
+
+export type UsAddress = {
+  __typename?: 'USAddress';
+  city: Scalars['String']['output'];
+  state: Scalars['String']['output'];
+  street: Scalars['String']['output'];
+  zip: Scalars['String']['output'];
 };
 
 export type User = {
