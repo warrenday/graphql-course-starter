@@ -26,6 +26,7 @@ import {
   typeDefs as authDirectiveTypeDefs,
   directive as authDirective,
 } from "./directives/auth";
+import { typeDefs as apolloDirectiveTypeDefs } from "./directives/apollo";
 
 const schema = makeExecutableSchema({
   typeDefs: [
@@ -35,6 +36,7 @@ const schema = makeExecutableSchema({
     companyTypeDefs,
     addressTypeDefs,
     authDirectiveTypeDefs,
+    apolloDirectiveTypeDefs,
   ],
   resolvers: [
     scalarResolvers,

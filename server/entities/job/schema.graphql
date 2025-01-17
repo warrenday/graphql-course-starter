@@ -50,7 +50,7 @@ type Subscription {
 }
 
 type Query {
-  searchJobs(input: SearchJobsInput!): [Job!]!
+  searchJobs(input: SearchJobsInput!): [Job!]! @cacheControl(maxAge: 30)
 }
 
 type Mutation {

@@ -15,6 +15,7 @@ import createContext from "./context";
 import { GraphQLError } from "graphql";
 import { ZodError } from "zod";
 import sentryPlugin from "./plugins/sentryPlugin";
+import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -24,7 +25,10 @@ const wsServer = new WebSocketServer({
 });
 const server = new ApolloServer({
   schema,
-  plugins: [sentryPlugin],
+  plugins: [
+    sentryPlugin,
+    ApolloServerPluginCacheControl({ defaultMaxAge: 60 }),
+  ],
   formatError: (formattedError, error) => {
     if (error instanceof GraphQLError) {
       if (error.originalError instanceof ZodError) {
@@ -38,6 +42,9 @@ const server = new ApolloServer({
     }
 
     return formattedError;
+  },
+  persistedQueries: {
+    ttl: 60,
   },
 });
 

@@ -60,8 +60,6 @@ const resolvers: IResolvers = {
     searchJobs: async (root, args, context) => {
       const { query } = args.input;
 
-      throw new GraphQLError("another error");
-
       const jobs = await context.prisma.job.findMany({
         where: {
           OR: [
