@@ -59,7 +59,7 @@
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
     "build": "react-scripts build",
     "test:fe": "jest --config=jest.fe.config.js",
-    "test:be": "jest --config=jest.be.config.js",
+    "test:be": "npm run seed && jest --config=jest.be.config.js",
     "eject": "react-scripts eject",
     "start:client": "react-scripts start",
     "start:server": "tsx watch server/index.ts",
