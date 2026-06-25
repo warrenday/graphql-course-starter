@@ -6,10 +6,12 @@ import { Badge } from "../ui/badge";
 import { Heading } from "../ui/heading";
 import { Text } from "../ui/text";
 
+// Received an error that "INTERN" & "CONTRACT" were not defined in JobType. Solution: edit INTERNSHIP to INTERN and add CONTRACT JobType
 export enum JobType {
   FULL_TIME = "FULL_TIME",
-  INTERNSHIP = "INTERNSHIP",
+  INTERN = "INTERNSHIP",
   PART_TIME = "PART_TIME",
+  CONTRACT = "CONTRACT",
 }
 
 export interface IJob {
@@ -27,10 +29,12 @@ interface IJobCardProps extends Omit<IJob, "id"> {
   action: React.ReactNode;
 }
 
+// Update jobTypeMap to include the new JobType names
 const jobTypeMap = {
   [JobType.FULL_TIME]: "Full-Time",
   [JobType.PART_TIME]: "Part-Time",
-  [JobType.INTERNSHIP]: "Internship",
+  [JobType.INTERN]: "Internship",
+  [JobType.CONTRACT]: "Contract",
 };
 
 const JobCard = (props: IJobCardProps) => {
